@@ -8,13 +8,13 @@ class TPQueue {
  private:
 T* arr;
 int size;
-int begin, end;
+int start, follow;
 int count;
 	  
  public:
 TPQueue() :
 size(100),
-begin(0), end(0), count(0) {
+start(0), follow(0), count(0) {
 arr = new T[size + 1];
 }
 ~TPQueue() {
@@ -22,33 +22,33 @@ delete[] arr;
 }
 void push(const T& item) {
 assert(count < size);
-if (end != 0) {
-arr[end] = item;
-for (int i = end - 1; i >= begin; i--) {
+if (follow != 0) {
+arr[follow] = item;
+for (int i = follow - 1; i >= start; i--) {
 if (item.prior > arr[i].prior) {
 arr[i + 1] = arr[i];
 arr[i] = item;
 }
 }
 } else {
-arr[begin] = item;
+arr[start] = item;
 }
-end++;
+follow++;
 count++;
-if (end > size)
-end -= size + 1;
+if (follow > size)
+follow -= size + 1;
 }
 T pop() {
 assert(count > 0);
-T item = arr[begin++];
+T item = arr[start++];
 count--;
-if (begin > size)
-begin -= size + 1;
+if (start > size)
+start -= size + 1;
 return item;
 }
 T get() const {
 assert(count > 0);
-return arr[begin];
+return arr[start];
 }
 bool isEmpty() const {
 return count == 0;
